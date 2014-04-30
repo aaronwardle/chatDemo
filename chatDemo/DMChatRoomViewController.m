@@ -241,16 +241,20 @@ BOOL isFirstShown = YES;
                         for (int ind = 0; ind < objects.count; ind++) {
                             NSIndexPath *newPath = [NSIndexPath indexPathForRow:ind inSection:0];
                             [insertIndexPaths addObject:newPath];
-                        } 
+                        }
+                        
                         [chatTable beginUpdates];
                         [chatTable insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationTop];
                         [chatTable endUpdates];
                         [chatTable reloadData];
                         [chatTable scrollsToTop];
                         
-                        NSIndexPath *lastIndex = [insertIndexPaths objectAtIndex:[insertIndexPaths count]-1];
                         
-                        [chatTable scrollToRowAtIndexPath:lastIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                        
+//                        
+//                        NSIndexPath *lastIndex = [insertIndexPaths objectAtIndex:[insertIndexPaths count]-1];
+//                        
+//                        [chatTable scrollToRowAtIndexPath:lastIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
                     } else {
                         // Log details of the failure
                         NSLog(@"Error: %@ %@", error, [error userInfo]);
