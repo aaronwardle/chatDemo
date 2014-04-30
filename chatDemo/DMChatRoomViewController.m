@@ -199,7 +199,7 @@ BOOL isFirstShown = YES;
     // and then subsequently do a query against the network.
     if ([chatData count] == 0) {
         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query orderByAscending:@"createdAt"];
+        [query orderByDescending:@"createdAt"];
         NSLog(@"Trying to retrieve from cache");
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (!error) {
@@ -215,7 +215,7 @@ BOOL isFirstShown = YES;
         }];
     }
     __block int totalNumberOfEntries = 0;
-    [query orderByAscending:@"createdAt"];
+    [query orderByDescending:@"createdAt"];
     [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
         if (!error) {
             // The count request succeeded. Log the count
@@ -235,6 +235,7 @@ BOOL isFirstShown = YES;
                     if (!error) {
                         // The find succeeded.
                         NSLog(@"Successfully retrieved %d chats.", objects.count);
+                        NSLog(@"Objects = %@", objects);
                         [chatData addObjectsFromArray:objects];
                         NSMutableArray *insertIndexPaths = [[NSMutableArray alloc] init];
                         for (int ind = 0; ind < objects.count; ind++) {
@@ -246,6 +247,10 @@ BOOL isFirstShown = YES;
                         [chatTable endUpdates];
                         [chatTable reloadData];
                         [chatTable scrollsToTop];
+                        
+                        NSIndexPath *lastIndex = [insertIndexPaths objectAtIndex:[insertIndexPaths count]-1];
+                        
+                        [chatTable scrollToRowAtIndexPath:lastIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
                     } else {
                         // Log details of the failure
                         NSLog(@"Error: %@ %@", error, [error userInfo]);
