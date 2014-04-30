@@ -35,6 +35,7 @@ BOOL isFirstShown = YES;
 		PF_EGORefreshTableHeaderView *view = [[PF_EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - chatTable.bounds.size.height, self.view.frame.size.width, chatTable.bounds.size.height)];
 		view.delegate = self;
 		[chatTable addSubview:view];
+        
 		_refreshHeaderView = view;		
 	}
 	//  update the last update date
@@ -286,9 +287,14 @@ BOOL isFirstShown = YES;
         [formatter setDateFormat:@"HH:mm a"];
         NSString *timeString = [formatter stringFromDate:theDate];
         cell.timeLabel.text = timeString;
+    
         
         cell.userLabel.text = [[chatData objectAtIndex:row] objectForKey:@"userName"];
-    }    
+    }
+    
+    // Fixes the white background of cells on iOS7
+    cell.backgroundColor = [UIColor clearColor];
+    
 	return cell;
 }
 
