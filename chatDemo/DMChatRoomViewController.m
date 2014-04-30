@@ -302,6 +302,11 @@ BOOL isFirstShown = YES;
     return labelSize.height + 40;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // Hide the entry field if a message row was tapped.
+    [tfEntry resignFirstResponder];
+}
 
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
